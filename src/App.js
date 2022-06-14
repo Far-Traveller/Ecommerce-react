@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import React from "react";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Navbar from './Components/Navbar/Navbar';
 import FloatingCart from './Components/FloatingCart/FloatingCart';
@@ -12,6 +13,9 @@ import ProductShowcase from './Pages/ProductShowcase/ProductShowcase';
 function App() {
   return (
     <BrowserRouter>
+      <Navbar/>
+      <FloatingCart />
+
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/contact' element={<Contact />} />
