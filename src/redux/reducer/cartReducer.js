@@ -30,6 +30,7 @@ export default function cartReducer(state = INITIAL_STATE, action) {
                 const newArr = [...state.cart];
                 newArr.push(action.payload);
                 console.log("Premier ajout de l'item dans le panier : ", newArr);
+                
                 return {
                     cart: newArr
                 }
@@ -38,12 +39,23 @@ export default function cartReducer(state = INITIAL_STATE, action) {
 
         case "UPDATEITEM":
 
-            return {
+            //trouver l'id de l'item
+            const indexItemUpdate = state.cart.findIndex(obj => obj.id === action.payload.id);
 
+            //changer le tableau existante
+            const newArr= [...state.cart];
+            // remlacer la qté du tableau par celle de l'action
+            newArr.splice(indexItemUpdate, 1, action.payload);
+
+            console.log("quantité updated : ", action.payload.quantity)
+            return {
+                cart: newArr
             }
         
         default:
             break;
     }
+    
+    return state;
         
 }
