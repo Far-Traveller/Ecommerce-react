@@ -26,18 +26,56 @@ const ProductShowcase = () => {
         setNbMugs(Number(event.target.value))
     }
 
+    const addingInfo = useRef();
+    let timerInfo;
+    let display = true;
+
+    const dispatch = useDispatch();
+
+    const addToCart = event => {
+        event.preventDefault();
+
+        const itemAdded = {
+            ...inventory[productClicked],
+            quantity: nbMugs
+        }
+
+        dispatch({
+            type: "ADDITEM",
+            payload: itemAdded,
+        })
+
+        addingInfo.current.innerText = "Ajouté au panier";
+
+        //faire disparaitre le texte 
+        if(display){
+            display = false;
+            timerInfo = setTimeout(() => {
+                addingInfo.current.innerText = "";
+                display = true;
+            }, 700)
+        }
+    }
+
+    //on nettoie le composant, pour éviter d'avoir une erreur, si on quitte la page avant que le timerinfo soit fini, si on revient sur la page, il va tenter de supprimer le texte, qui n'existe plus
+    useEffect(() => {
+        return () => {
+            clearTimeout(timerInfo)
+        }
+    }, [timerInfo])
+
     return (
         <div className="showcase">
             <div className="container-img-showcase">
                 <img
                 className="img-showcase"
                 src={process.env.PUBLIC_URL + `/images/${inventory[productClicked].img}.png`} 
-                alt="image du produit" />
+                alt="produit" />
             </div>
             <div className="product-infos">
                 <h2>{inventory[productClicked].title}</h2>
                 <p>Prix : {inventory[productClicked].price} €</p>
-                <form>
+                <form onSubmit={addToCart}>
                     <label htmlFor="quantity">Quantité</label>
                     <input
                     type="number"
@@ -46,7 +84,9 @@ const ProductShowcase = () => {
                     onChange={updateMugs}
                     />
                     <button>Ajouter au panier</button>
-                    <span className="adding-info"></span>
+                    <span
+                    ref={addingInfo}
+                    className="adding-info"></span>
                 </form>
             </div>
 

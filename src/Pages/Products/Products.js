@@ -26,7 +26,7 @@ const Products = () => {
                                     <img 
                                     className="img-product" 
                                     src={process.env.PUBLIC_URL + `/images/${item.img}.png`} 
-                                    alt="image produit" />
+                                    alt="produit" />
                                     <div className="like-container">
                                         <img src={heart} alt="j'aime" />
                                     </div>
